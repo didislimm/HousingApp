@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../static/css/button.css" th:href="@{/css/button.css}" />
+</head>
+<body>
+    <h1 align="center">Menu</h1>
+        <button  class="buttonForMenu" onclick="document.location='/streets?type=createHouse'" >Create House</button>
+        <button  class="buttonForMenu" onclick="document.location='/streets?type=outputHouse'">To know information about house</button>
+        <button  class="buttonForMenu" onclick="document.location='/streets?type=removeHouse'">Remove house</button>
+        <button  class="buttonForMenu" onclick="document.location='/streets?type=compareHouses'" >Compare two houses</button>
+        <button  class="buttonForMenu" onclick="document.location='/streets?type=quantityOfFreeFlat'">To know values of free flat in house</button>
+        <button  class="buttonForMenu" onclick="document.location='/streets?type=checkFlatStatus'">To check status of flat</button>
+</body>
+</html>
