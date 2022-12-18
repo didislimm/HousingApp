@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th=”http://www.thymeleaf.org” xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<header th:insert="header :: header"></header>
+        <p>
+            <form th:each="elem:${house}">
+                <h3 th:text="${elem}"></h3>
+            </form>
+        </p>
+<input type="submit"  value="To main" class="btn btn-success" onclick="document.location='/'" >
+</body>
+</html>

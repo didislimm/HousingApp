@@ -6,11 +6,8 @@ import com.avdeenko_mironov.HousingSystem.model.House;
 import com.avdeenko_mironov.HousingSystem.model.repo.FlatRepository;
 import com.avdeenko_mironov.HousingSystem.model.repo.FloorRepository;
 import com.avdeenko_mironov.HousingSystem.model.repo.HouseRepository;
-import com.avdeenko_mironov.HousingSystem.model.repo.StreetRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 
 @Service
 @RequiredArgsConstructor
@@ -62,7 +59,7 @@ public class CreateHouseService {
         floorNumber = 0;
         houseId++;
         house.setId(houseId);
-        int streetId= houseService.getIdByName(street);
+        int streetId= houseService.getIdStreetByName(street);
         house.setStreetId(streetId);
         for (Floor floor:house.getFloors()){
             floor.setHouseId(house.getId());

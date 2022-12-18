@@ -36,7 +36,7 @@ public class Floor {
             flatsToString.append(flat.toString());
         }
         return numberOfFloor + " Floor " +
-                " flats:<p>" + flatsToString;
+                " flats:\n" + flatsToString;
     }
 
     public static final class FloorBuilder {
