@@ -17,7 +17,8 @@ public class MainController {
   private final HouseService houseService;
 
     @RequestMapping( value = "/control",method = RequestMethod.POST)
-    public String defineTypeOfMethod(@ModelAttribute("street") String street, @ModelAttribute("type") String type, Model model){
+    public String defineTypeOfMethod(@ModelAttribute("street") String street,
+                                     @ModelAttribute("type") String type, Model model){
         List<Integer> numbersOfHouses=houseService.findHousesByStreet(street);
         model.addAttribute("numbers", numbersOfHouses);
         return type;

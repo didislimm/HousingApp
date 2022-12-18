@@ -30,11 +30,9 @@ public class CreateHouseController {
                                  @ModelAttribute("valueOfFlats") int valueOfFlats,
                                  @ModelAttribute("street") String street, Model model){
         List<Integer> numbersOfHouses= houseService.findHousesByStreet(street);
-        for (int i=0;i<numbersOfHouses.size();i++){
-            if (numberOfHouse==numbersOfHouses.get(i)){
-                model.addAttribute("numbers", numbersOfHouses);
-                return "createHouse";
-            }
+        if (numbersOfHouses.contains(numberOfHouse)){
+            model.addAttribute("numbers", numbersOfHouses);
+            return "createHouse";
         }
         List<String> flats=new ArrayList<>();
         for (int i=1;i<=valueOfFlats;i++){
@@ -54,9 +52,6 @@ public class CreateHouseController {
                               Model model,@RequestParam("flat") Double[] flats ){
 
         House house= createHouseService.createRandomHouse(flats,valueOfFloors,street,numberOfHouse);
-
-
-
         return "main";
     }
 

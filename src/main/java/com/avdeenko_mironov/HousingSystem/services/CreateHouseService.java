@@ -45,6 +45,7 @@ public class CreateHouseService {
                 .build();
         return flat;
     }
+
     public  static Floor  createRandomFloor(Double[] squareOfFlats) {
         floorNumber++;
         Floor floor=Floor.FloorBuilder.aFloor().but(squareOfFlats, floorNumber).build();
@@ -82,6 +83,5 @@ public class CreateHouseService {
         }
         return house;
     }
-
 
 }
