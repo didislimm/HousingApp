@@ -8,3 +8,6 @@ INSERT into street VALUES (7,'Turova');
 INSERT into street VALUES (8,'Fedotova');
 INSERT into street VALUES (9,'Kashtanovaya');
 INSERT into street VALUES (10,'Poleskaya');
+
+
+

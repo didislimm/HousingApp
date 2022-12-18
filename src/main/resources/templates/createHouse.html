@@ -1,11 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th=”http://www.thymeleaf.org” xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title></title>
 </head>
 <body>
     <header th:insert="header :: header"></header>
-    <h1> Hello</h1>
+    <h1>Existing house:</h1>
+    <h1 th:text="${numbers}"></h1>
+    <form  action="/createHouse-2-step" method="post">
+            <label>First Step:</label>
+            <div class="tab">
+                <p>Input number of House:</p>
+                <input name="numberOfHouse" type="number" max="150" min="1" required>
+                <p>Input value of floors</p>
+                <input name="valueOfFloors" type="number" max="100" min="1" required>
+                <p>Choose value of flats in floor:</p>
+                <input max="10" min="2" name="valueOfFlats" id="inputId" type="range" oninput="outputId.value = inputId.value"
+                       required>
+                <output name="value" id="outputId">6</output>
+                <input type="hidden" name="street" th:value="${street}">
+                <input type="submit"  value="Next">
+            </div>
+    </form>
 </body>
 </html>

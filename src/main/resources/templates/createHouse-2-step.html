@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th=”http://www.thymeleaf.org” xmlns="http://www.w3.org/1999/html" >
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+<header th:insert="header :: header"></header>
+<form  action="/creatingHouse" method="post">
+  <label>Second Step:</label>
+    <div class="form-control">
+      <th:block th:each="flat: ${flats}">
+            <label th:text="${flat}"></label>
+            <input style="display: block;" name="flat" type="number"  min="12" max="150" step="0.1" required/>
+      </th:block>
+      <input type="submit" class="btn btn-success" value="Create">
+    </div>
+  <input type="hidden" name="street" th:value="${street}">
+  <input type="hidden" name="numberOfHouse" th:value="${numberOfHouse}">
+  <input type="hidden" name="valueOfFloors" th:value="${valueOfFloors}">
+</form>
+</body>
+</html>
