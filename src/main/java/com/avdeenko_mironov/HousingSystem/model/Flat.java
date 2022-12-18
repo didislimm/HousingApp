@@ -24,7 +24,7 @@ public class Flat {
         return System.lineSeparator() + "Flat " + numberOfFlat +
                 " Square=" + squareOfFlat +
                 " NumberOfPeople=" + numberOfLodger +
-                " NumberOfRoom=" + numberOfRoom + "<p>";
+                " NumberOfRoom=" + numberOfRoom + '\n';
     }
 
 

@@ -76,15 +76,5 @@ public class House {
             return house;
         }
     }
-
-
-    @Override
-    public String toString() {
-        StringBuilder floorsToString = new StringBuilder();
-        for (Floor floor : floors) {
-            floorsToString.append(floor.toString());
-        }
-        return null;
-    }
 }
 

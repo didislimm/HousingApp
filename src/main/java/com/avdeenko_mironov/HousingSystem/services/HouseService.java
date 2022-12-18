@@ -9,7 +9,6 @@ import com.avdeenko_mironov.HousingSystem.model.repo.FloorRepository;
 import com.avdeenko_mironov.HousingSystem.model.repo.HouseRepository;
 import com.avdeenko_mironov.HousingSystem.model.repo.StreetRepository;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.type.descriptor.java.FloatPrimitiveArrayJavaType;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -26,7 +25,9 @@ public class HouseService {
     private final HouseRepository houseRepository;
     private final StreetRepository streetRepository;
 
-    public int getIdByName(String street){
+    private final FloorService floorService;
+
+    public int getIdStreetByName(String street){
         List<Street> streets=streetRepository.findAll().stream()
        .filter(c->c.getName().equals(street)).collect(Collectors.toList());
         return streets.get(0).getId();
@@ -38,44 +39,34 @@ public class HouseService {
                 .collect(Collectors.toList());
     }
 
-
-
-     public List<Integer> findHousesByStreet(String street) {
-         int idStreet = 0;
-         List<Integer> numbersOfHouses=new ArrayList<>();
-         idStreet = getIdByName(street);
-         List <House> houses= getHousesByStreetId(idStreet);
-         for (int i=0;i<houses.size();i++){
-             numbersOfHouses.add(i,houses.get(i).getNumberOfHouse());
-         }
-         return numbersOfHouses;
-     }
-
-    public House getHouse(int numberOfHouse,String street){
-        int streetId= getIdByName(street);
-        List <House> house=houseRepository.findAll()
-            .stream()
-            .filter(c-> c.getNumberOfHouse()==numberOfHouse && c.getStreetId()==streetId)
-            .collect(Collectors.toList());
-        int houseId=house.get(0).getId();
-        List<Floor> floors=floorRepository.findAll()
-            .stream()
-            .filter(c-> c.getHouseId()==houseId)
-            .collect(Collectors.toList());
-        for (Floor floor: floors){
-            List<Flat> flats=flatRepository.findAll()
-                .stream()
-                .filter(c-> c.getFloorId()==floor.getId())
-                .collect(Collectors.toList());
-            floor.setFlats(flats);
+    public int getValueOfFlatsInHouse(int numberOfHouse,String street) {
+        House house = getHouse(numberOfHouse,street);
+        int valueOfFlats = 0;
+        for (Floor floor : house.getFloors()) {
+            valueOfFlats += floor.getNumberOfFlats();
         }
-        house.get(0).setFloors(floors);
-        return house.get(0);
+        return valueOfFlats;
     }
 
+    public double getTotalAreaOfHouse(int numberOfHouse,String street) {
+        House house = getHouse(numberOfHouse,street);
+        double totalArea = 0;
+        for (Floor floor : house.getFloors()) {
+            totalArea += floorService.getCountingOfSquare(floor);
+        }
+        return totalArea;
+    }
+
+    public int getTotalLodgersOfHouse(int numberOfHouse,String street) {
+        House house = getHouse(numberOfHouse,street);
+        int totalLodgers = 0;
+        for (Floor floor : house.getFloors()) {
+            totalLodgers += floorService.getCountingOfLodger(floor);
+        }
+        return totalLodgers;
+    }
 
     public void removeHouse(String street, Integer numberOfHouse){
-        Integer streetId = getIdByName(street);
         House house = getHouse(numberOfHouse, street);
         for(Floor floor : house.getFloors()){
             for(Flat flat: floor.getFlats()){
@@ -84,5 +75,38 @@ public class HouseService {
             floorRepository.delete(floor);
         }
         houseRepository.delete(house);
+    }
+
+     public List<Integer> findHousesByStreet(String street) {
+         int idStreet = 0;
+         List<Integer> numbersOfHouses=new ArrayList<>();
+         idStreet = getIdStreetByName(street);
+         List <House> houses= getHousesByStreetId(idStreet);
+         for (int i=0;i<houses.size();i++){
+             numbersOfHouses.add(i,houses.get(i).getNumberOfHouse());
+         }
+         return numbersOfHouses;
      }
+
+    public House getHouse(int numberOfHouse,String street){
+        int streetId= getIdStreetByName(street);
+        List <House> house=houseRepository.findAll()
+                .stream()
+                .filter(c-> c.getNumberOfHouse()==numberOfHouse && c.getStreetId()==streetId)
+                .collect(Collectors.toList());
+        int houseId=house.get(0).getId();
+        List<Floor> floors=floorRepository.findAll()
+                .stream()
+                .filter(c-> c.getHouseId()==houseId)
+                .collect(Collectors.toList());
+        for (Floor floor: floors){
+            List<Flat> flats=flatRepository.findAll()
+                    .stream()
+                    .filter(c-> c.getFloorId()==floor.getId())
+                    .collect(Collectors.toList());
+            floor.setFlats(flats);
+        }
+        house.get(0).setFloors(floors);
+        return house.get(0);
+    }
 }
