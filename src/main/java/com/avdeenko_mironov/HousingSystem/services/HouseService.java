@@ -38,8 +38,6 @@ public class HouseService {
                 .collect(Collectors.toList());
     }
 
-
-
      public List<Integer> findHousesByStreet(String street) {
          int idStreet = 0;
          List<Integer> numbersOfHouses=new ArrayList<>();
