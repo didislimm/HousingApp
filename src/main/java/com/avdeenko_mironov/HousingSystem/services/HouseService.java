@@ -11,7 +11,6 @@ import com.avdeenko_mironov.HousingSystem.model.repo.StreetRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,8 +38,7 @@ public class HouseService {
                 .collect(Collectors.toList());
     }
 
-    public int getValueOfFlatsInHouse(int numberOfHouse,String street) {
-        House house = getHouse(numberOfHouse,street);
+    public int getValueOfFlatsInHouse(House house) {
         int valueOfFlats = 0;
         for (Floor floor : house.getFloors()) {
             valueOfFlats += floor.getNumberOfFlats();
@@ -48,8 +46,7 @@ public class HouseService {
         return valueOfFlats;
     }
 
-    public double getTotalAreaOfHouse(int numberOfHouse,String street) {
-        House house = getHouse(numberOfHouse,street);
+    public double getTotalAreaOfHouse(House house) {
         double totalArea = 0;
         for (Floor floor : house.getFloors()) {
             totalArea += floorService.getCountingOfSquare(floor);
@@ -57,8 +54,7 @@ public class HouseService {
         return totalArea;
     }
 
-    public int getTotalLodgersOfHouse(int numberOfHouse,String street) {
-        House house = getHouse(numberOfHouse,street);
+    public int getTotalLodgersOfHouse(House house) {
         int totalLodgers = 0;
         for (Floor floor : house.getFloors()) {
             totalLodgers += floorService.getCountingOfLodger(floor);

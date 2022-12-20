@@ -6,17 +6,23 @@ import com.avdeenko_mironov.HousingSystem.model.House;
 import com.avdeenko_mironov.HousingSystem.model.repo.FlatRepository;
 import com.avdeenko_mironov.HousingSystem.model.repo.FloorRepository;
 import com.avdeenko_mironov.HousingSystem.model.repo.HouseRepository;
+import com.avdeenko_mironov.HousingSystem.model.repo.StreetRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class CreateHouseService {
 
+    private final StreetRepository streetRepository;
     private final HouseRepository houseRepository;
     private final FloorRepository floorRepository;
     private final FlatRepository flatRepository;
+
     private final HouseService houseService;
+    private final FloorService floorService;
 
     private static int flatNumber = 0;
     private static int floorNumber = 0;
@@ -57,28 +63,29 @@ public class CreateHouseService {
         House house = House.HouseBuilder.aHouse().but(squareOfFlats, valueOfFloors).build();
         flatNumber = 0;
         floorNumber = 0;
-        houseId++;
-        house.setId(houseId);
         int streetId= houseService.getIdStreetByName(street);
         house.setStreetId(streetId);
-        for (Floor floor:house.getFloors()){
-            floor.setHouseId(house.getId());
-        }
         house.setNumberOfHouse(numberOfHouse);
+        return house;
+    }
+
+    public void saveHouse(House house){
+        List<Floor> floors=house.getFloors();
         houseRepository.save(house);
-        for (Floor floor:house.getFloors()){
-            floorId++;
-            floor.setId(floorId);
+        int houseId=house.getId();
+        int numberOfFloor=0;
+        for (Floor floor:floors){
+            numberOfFloor++;
             floor.setHouseId(houseId);
+            List<Flat> flats=floor.getFlats();
             floorRepository.save(floor);
-            for (Flat flat:floor.getFlats()){
-                flatId++;
-                flat.setId(flatId);
+            int floorId=floorService.getFloor(numberOfFloor,houseId).getId();
+            for (Flat flat:flats){
                 flat.setFloorId(floorId);
                 flatRepository.save(flat);
             }
         }
-        return house;
+
     }
 
 }

@@ -26,8 +26,8 @@ import static com.avdeenko_mironov.HousingSystem.services.CreateHouseService.cre
 @Getter
 @Setter
 public class House {
-
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @Transient

@@ -18,9 +18,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CreateHouseController {
 
-    private final FlatRepository flatRepository;
-    private final FloorRepository floorRepository;
-    private final HouseRepository houseRepository;
     private final HouseService houseService;
     private final CreateHouseService createHouseService;
 
@@ -44,7 +41,7 @@ public class CreateHouseController {
         model.addAttribute("valueOfFloors",valueOfFloors);
         model.addAttribute("valueOfFlats",valueOfFlats);
         model.addAttribute("street",street);
-        return "/createHouse-2-step";
+        return "createHouse-2-step";
     }
 
     @RequestMapping(value = "/creatingHouse", method = RequestMethod.POST)
@@ -53,10 +50,8 @@ public class CreateHouseController {
                               @ModelAttribute("street") String street,
                               Model model,@RequestParam("flat") Double[] flats ){
 
-        House house= createHouseService.createRandomHouse(flats,valueOfFloors,street,numberOfHouse);
-
-
-
+        House house=createHouseService.createRandomHouse(flats,valueOfFloors,street,numberOfHouse);
+        createHouseService.saveHouse(house);
         return "main";
     }
 
