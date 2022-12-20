@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th=”http://www.thymeleaf.org” xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<header th:insert="header :: header"></header>
+<p>
+    <h2 class="fs-3" th:text="${numberOfFreeFlat}"></h2>
+    <h2 class="fs-3" th:text="${quantityOfFreeFlat}"></h2>
+</p>
+<input type="submit"  value="To main" class="btn btn-success" onclick="document.location='/'" >
+</body>
+</html>
