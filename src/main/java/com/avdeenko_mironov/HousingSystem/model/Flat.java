@@ -8,6 +8,7 @@ import lombok.*;
 @Setter
 public class Flat {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     private int  floorId;

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th=”http://www.thymeleaf.org” xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+<header th:insert="header :: header"></header>
+<form  action="/compareHouses-3-step" method="post">
+          <label class="fs-2">Existing houses in first street:
+              <label  class="fs-2" th:text="${numbersOfHouses1}"/>
+          </label>
+        <input name="numberOfHouse1" type="number" max="150" min="1" required><br>
+        <label class="fs-2">Existing houses in second street:
+            <label  class="fs-2" th:text="${numbersOfHouses2}"/>
+        </label>
+        <input name="numberOfHouse2" type="number" max="150" min="1" required><br>
+        <input type="hidden" th:value="${street1}" name="street1">
+        <input type="hidden" th:value="${street2}" name="street2">
+        <input type="submit" class="btn btn-success" value="Compare">
+</form>
+</body>
+</html>

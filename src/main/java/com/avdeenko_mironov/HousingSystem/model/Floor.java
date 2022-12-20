@@ -14,8 +14,8 @@ import java.util.List;
 @Getter
 @Setter
 public class Floor {
-
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @Transient

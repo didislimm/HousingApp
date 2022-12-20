@@ -21,7 +21,6 @@ import java.util.*;
 public class OutputHouseController {
 
     private final HouseService houseService;
-    private final StreetService streetService;
 
     @RequestMapping(value = "/outputHouse-2-step", method = RequestMethod.POST)
     public String validateValues(@ModelAttribute("numberOfHouse") int numberOfHouse,
@@ -34,8 +33,8 @@ public class OutputHouseController {
             House house=houseService.getHouse(numberOfHouse,street);
             List<String> text = new ArrayList<>();
             text.add("Address:"+street+','+numberOfHouse);
-            text.add("Total lodgers:"+ houseService.getTotalLodgersOfHouse(numberOfHouse,street));
-            text.add("Total Area:"+ houseService.getTotalAreaOfHouse(numberOfHouse,street));
+            text.add("Total lodgers:"+ houseService.getTotalLodgersOfHouse(house));
+            text.add("Total Area:"+ houseService.getTotalAreaOfHouse(house));
             for (Floor floor:house.getFloors()){
                 text.add("Floor "+floor.getNumberOfFloor()+":");
                     for (Flat flat:floor.getFlats()){
