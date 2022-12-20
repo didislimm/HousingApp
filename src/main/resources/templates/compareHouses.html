@@ -6,15 +6,19 @@
 </head>
 <body>
 <header th:insert="header :: header"></header>
-<h1>Existing house:</h1>
-<h1 th:text="${numbers}"></h1>
-<form  action="/compareHouse" method="post">
-    <div class="tab">
-        <p>Input number of House:</p>
-        <input name="numberOfHouse" type="number" max="150" min="1" required>
-        <input type="hidden" name="street" th:value="${street}">
-        <input type="submit"  value="Next">
-    </div>
+<label class="fs-2">Existing house:</label>
+    <label class="fs-2" th:text="${numbers}"></label>
+<form action="/compareHouses-2-step" method="post">
+    <label >Choose street for first House:
+        <select name="street1" class="form-control"  >
+            <option th:each="elem:${streets}" th:value="${elem.name}" th:text="${elem.name}" ></option>
+        </select>
+        <label >Choose street for second House:
+            <select name="street2" class="form-control"  >
+                <option th:each="elem:${streets}" th:value="${elem.name}" th:text="${elem.name}" ></option>
+            </select>
+        <input  type="submit" value="Send">
+    </label>
 </form>
 </body>
 </html>
