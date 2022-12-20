@@ -12,7 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -104,5 +106,34 @@ public class HouseService {
         }
         house.get(0).setFloors(floors);
         return house.get(0);
+    }
+
+    public List<Integer> getQuantityOfFreeFlat (String street, Integer numberOfHouse){
+        List<Integer> quantityOfFreeFlat = new ArrayList<>();
+        House house = getHouse(numberOfHouse, street);
+        for (Floor floor: house.getFloors()) {
+            for (Flat flat: floor.getFlats()) {
+                if(flat.getNumberOfLodger()==0){
+                    quantityOfFreeFlat.add(flat.getNumberOfFlat());
+                }
+            }
+        }
+        return quantityOfFreeFlat;
+    }
+
+    public List<Integer> checkFlatStatus(String street, Integer numberOfHouse){
+        List<Integer> flatsStatus = new ArrayList<>();
+        House house = getHouse(numberOfHouse, street);
+        int GOST = 18;
+        for (Floor floor: house.getFloors()) {
+            for (Flat flat: floor.getFlats()) {
+                if(flat.getNumberOfLodger() != 0){
+                    if(flat.getSquareOfFlat()/flat.getNumberOfLodger() < GOST){
+                        flatsStatus.add(flat.getNumberOfFlat());
+                    }
+                }
+            }
+        }
+        return flatsStatus;
     }
 }
