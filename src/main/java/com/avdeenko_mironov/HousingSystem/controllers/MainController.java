@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -20,6 +21,7 @@ public class MainController {
     public String defineTypeOfMethod(@ModelAttribute("street") String street,
                                      @ModelAttribute("type") String type, Model model){
         List<Integer> numbersOfHouses=houseService.findHousesByStreet(street);
+        Collections.sort(numbersOfHouses);
         model.addAttribute("numbers", numbersOfHouses);
         return type;
     }

@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -29,6 +30,7 @@ public class CreateHouseController {
         List<Integer> numbersOfHouses= houseService.findHousesByStreet(street);
         for (int i=0;i<numbersOfHouses.size();i++){
             if (numberOfHouse==numbersOfHouses.get(i)){
+                Collections.sort(numbersOfHouses);
                 model.addAttribute("numbers", numbersOfHouses);
                 return "createHouse";
             }

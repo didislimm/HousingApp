@@ -27,6 +27,7 @@ public class OutputHouseController {
                                  @ModelAttribute("street") String street,Model model){
         List<Integer> numbersOfHouses= houseService.findHousesByStreet(street);
             if (!numbersOfHouses.contains(numberOfHouse)){
+                Collections.sort(numbersOfHouses);
                 model.addAttribute("numbers", numbersOfHouses);
                 return "outputHouse";
             }
@@ -34,7 +35,8 @@ public class OutputHouseController {
             List<String> text = new ArrayList<>();
             text.add("Address:"+street+','+numberOfHouse);
             text.add("Total lodgers:"+ houseService.getTotalLodgersOfHouse(house));
-            text.add("Total Area:"+ houseService.getTotalAreaOfHouse(house));
+            String totalArea=String.format("%.1f",houseService.getTotalAreaOfHouse(house));
+            text.add("Total Area:"+ totalArea);
             for (Floor floor:house.getFloors()){
                 text.add("Floor "+floor.getNumberOfFloor()+":");
                     for (Flat flat:floor.getFlats()){

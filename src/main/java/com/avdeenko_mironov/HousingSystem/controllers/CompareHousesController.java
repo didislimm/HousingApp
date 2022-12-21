@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -39,7 +40,9 @@ public class CompareHousesController {
     public String outputHousesInStreets(@ModelAttribute("street1") String street1,
                                         @ModelAttribute("street2") String street2, Model model){
         List<Integer> numbersOfHouses1= houseService.findHousesByStreet(street1);
+        Collections.sort(numbersOfHouses1);
         List<Integer> numbersOfHouses2= houseService.findHousesByStreet(street2);
+        Collections.sort(numbersOfHouses2);
         model.addAttribute("street1",street1);
         model.addAttribute("street2",street2);
         model.addAttribute("numbersOfHouses1",numbersOfHouses1);
@@ -52,9 +55,14 @@ public class CompareHousesController {
                                 @ModelAttribute("numberOfHouse2") int numberOfHouse2,
                                 @ModelAttribute("street1") String street1,
                                 @ModelAttribute("street2") String street2, Model model){
-        if (numberOfHouse1==numberOfHouse2 && street1.equals(street2)){
-            model.addAttribute("numbersOfHouses1", houseService.findHousesByStreet(street1));
-            model.addAttribute("numbersOfHouses2", houseService.findHousesByStreet(street2));
+        List<Integer> numbersOfHouses1 = houseService.findHousesByStreet(street1);
+        List<Integer> numbersOfHouses2 = houseService.findHousesByStreet(street2);
+        if ((numberOfHouse1==numberOfHouse2 && street1.equals(street2))||
+                !(numbersOfHouses1.contains(numberOfHouse1))|| !(numbersOfHouses2.contains(numberOfHouse2))){
+            Collections.sort(numbersOfHouses1);
+            model.addAttribute("numbersOfHouses1",numbersOfHouses1 );
+            Collections.sort(numbersOfHouses2);
+            model.addAttribute("numbersOfHouses2",numbersOfHouses2);
             return "compareHouses-2-step";
         }
         House house1=houseService.getHouse(numberOfHouse1,street1);
@@ -68,7 +76,8 @@ public class CompareHousesController {
         text.add("First House");
         text.add("Address:"+street1+','+numberOfHouse1);
         text.add("Total lodgers:"+lodgersInFirstHouse );
-        text.add("Total Area:"+ squareInFirstHouse);
+        String totalArea=String.format("%.1f",squareInFirstHouse);
+        text.add("Total Area:"+ totalArea);
         text.add("Second House");
         text.add("Address:"+street2+','+numberOfHouse2);
         text.add("Total lodgers:"+ lodgersInSecondHouse);

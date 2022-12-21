@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -22,6 +23,12 @@ public class RemoveHouseController {
     @RequestMapping(value = "/removeHouse", method = RequestMethod.POST)
     public String validateValues(@ModelAttribute("numberOfHouse") int numberOfHouse,
                                  @ModelAttribute("street") String street, Model model){
+        List<Integer> numbersOfHouses=houseService.findHousesByStreet(street);
+        if (!numbersOfHouses.contains(numberOfHouse)){
+            Collections.sort(numbersOfHouses);
+            model.addAttribute("numbers", numbersOfHouses);
+            return "quantityOfFreeFlat";
+        }
         houseService.removeHouse(street, numberOfHouse);
         return "main";
     }
