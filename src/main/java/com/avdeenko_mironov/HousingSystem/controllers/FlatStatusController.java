@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,12 @@ public class FlatStatusController {
     @RequestMapping(value = "/checkFlatStatus", method = RequestMethod.POST)
     public String validateValues(@ModelAttribute("numberOfHouse") int numberOfHouse,
                                  @ModelAttribute("street") String street, Model model){
+        List<Integer> numbersOfHouses=  houseService.findHousesByStreet(street);
+        if (!numbersOfHouses.contains(numberOfHouse)){
+            Collections.sort(numbersOfHouses);
+            model.addAttribute("numbers", numbersOfHouses);
+            return "checkFlatStatus";
+        }
         List<Integer> flatsStatus = houseService.checkFlatStatus(street, numberOfHouse);
         String text = "In the house at " + street + " " + numberOfHouse +
             ", the following apartments do not meet the GOST standard: ";

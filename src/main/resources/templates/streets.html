@@ -13,7 +13,7 @@
                 <option th:each="elem:${streets}" th:value="${elem.name}" th:text="${elem.name}" ></option>
             </select>
             <input type="hidden" name="type" th:value="${type}">
-            <input  type="submit" value="Send">
+            <input class="btn btn-success" type="submit" value="Send">
         </label>
     </form>
 </body>

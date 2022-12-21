@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -19,6 +20,12 @@ public class QuantityOfFreeFlatController {
     @RequestMapping(value = "/quantityOfFreeFlat", method = RequestMethod.POST)
     public String validateValues(@ModelAttribute("numberOfHouse") int numberOfHouse,
                                  @ModelAttribute("street") String street, Model model){
+        List<Integer> numbersOfHouses=  houseService.findHousesByStreet(street);
+        if (!numbersOfHouses.contains(numberOfHouse)){
+            Collections.sort(numbersOfHouses);
+            model.addAttribute("numbers", numbersOfHouses);
+            return "quantityOfFreeFlat";
+        }
         List<Integer> quantityOfFreeFlat = houseService.getQuantityOfFreeFlat(street, numberOfHouse);
         String textByNumberOfFreeFlat = "Number of free flat = " + quantityOfFreeFlat.size();
         String textByNumbersOfFreeFlat = "Numbers of free flats: ";
